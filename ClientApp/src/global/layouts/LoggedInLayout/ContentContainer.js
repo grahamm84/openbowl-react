@@ -7,7 +7,12 @@ import PropTypes from "prop-types";
 export default function ContentContainer(props) {
   return (
     <>
-      <PageHeader title={props.title} subtitle={props.subtitle} />
+      <PageHeader
+        title={props.title}
+        subtitle={props.subtitle}
+        icon={props.icon}
+        action={props.action}
+      />
       <Container maxWidth="xl">
         <Grid
           container
@@ -27,4 +32,6 @@ ContentContainer.propTypes = {
   children: PropTypes.node,
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
+  icon: PropTypes.node,
+  action: PropTypes.node,
 };

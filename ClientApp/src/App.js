@@ -38,16 +38,16 @@ function App() {
         theme="colored"
       />
       <CssBaseline />
-      <Box
+      {/* <Box
         sx={{
           display: "flex",
           flex: 1,
           height: "100%",
           background: `${theme.palette.background.default}`,
         }}
-      >
-        {auth.user ? <LoggedInLayout /> : <GuestLayout />}
-      </Box>
+      > */}
+      {auth.user ? <LoggedInLayout /> : <GuestLayout />}
+      {/* </Box> */}
     </ThemeProvider>
   );
 }

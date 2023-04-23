@@ -18,139 +18,87 @@ import PermissionWrapperVisibility from "global/components/PermissionWrapper";
 import { Users_View } from "global/helpers/UserRoleConstants";
 
 const MenuWrapper = styled(Box)(
-  ({ theme }) => `
+  () => `
   .MuiList-root {
-    padding: ${theme.spacing(1)};
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 
     & > .MuiList-root {
-      padding: 0 ${theme.spacing(0)} ${theme.spacing(1)};
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      flex-wrap: wrap;
     }
   }
-
-    .MuiListSubheader-root {
-      text-transform: uppercase;
-      font-weight: bold;
-      font-size: ${theme.typography.pxToRem(12)};
-      color: ${theme.colors.alpha.trueWhite[50]};
-      padding: ${theme.spacing(0, 2.5)};
-      line-height: 1.4;
-    }
 `
 );
 
 const SubMenuWrapper = styled(Box)(
   ({ theme }) => `
+    width: 100%;
     .MuiList-root {
+      padding: 0;
+      display: flex;
+      flex-direction: row;
+      
+      .MuiList-root .MuiList-root .MuiListItem-root .MuiIconButton-root {
+        font-weight: normal !important;
+      }
 
       .MuiListItem-root {
-        padding: 1px 0;
+        padding: 0 2px;
+        justify-content: center;
+        width: auto;
 
-        .MuiBadge-root {
-          position: absolute;
-          right: ${theme.spacing(3.2)};
-
-          .MuiBadge-standard {
-            background: ${theme.colors.primary.main};
-            font-size: ${theme.typography.pxToRem(10)};
-            font-weight: bold;
-            text-transform: uppercase;
-            color: ${theme.palette.primary.contrastText};
-          }
+        &:last-child {
+          margin-left: auto;
         }
     
-        .MuiButton-root {
+        .MuiIconButton-root {
           display: flex;
-          color: ${theme.colors.alpha.trueWhite[70]};
           background-color: transparent;
-          width: 100%;
-          justify-content: flex-start;
-          padding: ${theme.spacing(1.2, 3)};
+          border-radius: ${theme.general.borderRadiusLg};
+          justify-content: center;
+          font-size: ${theme.typography.pxToRem(14)};
+          padding: ${theme.spacing(1.4, 2)};
+          position: relative;
+          font-weight: bold;
+          color: ${theme.colors.alpha.trueWhite[100]};
 
-          .MuiButton-startIcon,
-          .MuiButton-endIcon {
+          .name-wrapper {
             transition: ${theme.transitions.create(["color"])};
+          }
 
-            .MuiSvgIcon-root {
-              font-size: inherit;
-              transition: none;
+          .MuiBadge-root {
+            position: absolute;
+            right: 16px;
+            top: 12px;
+
+            .MuiBadge-badge {
+              background: ${theme.colors.alpha.white[70]};
+              color: ${theme.colors.alpha.black[100]};
+              font-size: ${theme.typography.pxToRem(11)};
+              font-weight: bold;
+              text-transform: uppercase;
             }
           }
-
-          .MuiButton-startIcon {
-            color: ${theme.colors.alpha.trueWhite[30]};
-            font-size: ${theme.typography.pxToRem(20)};
+  
+          .MuiSvgIcon-root {
+            transition: ${theme.transitions.create(["color"])};
+            font-size: ${theme.typography.pxToRem(24)};
             margin-right: ${theme.spacing(1)};
-          }
-          
-          .MuiButton-endIcon {
             color: ${theme.colors.alpha.trueWhite[50]};
-            margin-left: auto;
-            opacity: .8;
-            font-size: ${theme.typography.pxToRem(20)};
           }
 
           &.active,
           &:hover {
-            background-color: ${alpha(theme.colors.alpha.trueWhite[100], 0.06)};
-            color: ${theme.colors.alpha.trueWhite[100]};
+            background-color: ${theme.colors.alpha.white[10]};
 
-            .MuiButton-startIcon,
-            .MuiButton-endIcon {
+            .MuiSvgIcon-root {
               color: ${theme.colors.alpha.trueWhite[100]};
-            }
-          }
-        }
-
-        &.Mui-children {
-          flex-direction: column;
-
-          .MuiBadge-root {
-            position: absolute;
-            right: ${theme.spacing(7)};
-          }
-        }
-
-        .MuiCollapse-root {
-          width: 100%;
-
-          .MuiList-root {
-            padding: ${theme.spacing(1, 0)};
-          }
-
-          .MuiListItem-root {
-            padding: 1px 0;
-
-            .MuiButton-root {
-              padding: ${theme.spacing(0.8, 3)};
-
-              .MuiBadge-root {
-                right: ${theme.spacing(3.2)};
-              }
-
-              &:before {
-                content: ' ';
-                background: ${theme.colors.alpha.trueWhite[100]};
-                opacity: 0;
-                transition: ${theme.transitions.create([
-                  "transform",
-                  "opacity",
-                ])};
-                width: 6px;
-                height: 6px;
-                transform: scale(0);
-                transform-origin: center;
-                border-radius: 20px;
-                margin-right: ${theme.spacing(1.8)};
-              }
-
-              &.active,
-              &:hover {
-
-                &:before {
-                  transform: scale(1);
-                  opacity: 1;
-                }
-              }
             }
           }
         }

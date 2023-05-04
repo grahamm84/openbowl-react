@@ -10,6 +10,7 @@
     <RootNamespace>OpenBowlReact</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Identity_and_API___React_App' " />
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="6.0.10" />
   </ItemGroup>

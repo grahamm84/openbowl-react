@@ -19,8 +19,8 @@ export function ProtectedRoutes() {
       <Route exact path="/users/:userId" component={UserContainer} />
       <Route exact path="/messages" component={MessagesContainer} />
       <Route exact path="/blank" component={BlankFeature} />
-      {/* <Route exact path="/my-leagues" component={LeagueListContainer} /> */}
-      <Route exact path="/my-leagues" component={LeaguesContainer} />
+      <Route exact path="/my-leagues" component={LeagueListContainer} />
+      {/* <Route exact path="/my-leagues" component={LeaguesContainer} /> */}
       <Route>
         <Redirect to="/home" />
       </Route>

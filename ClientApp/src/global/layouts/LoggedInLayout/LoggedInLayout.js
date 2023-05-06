@@ -5,10 +5,11 @@ import {
   Card,
   Container,
   styled,
-  useTheme,
+  useTheme
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { ProtectedRoutes } from "global/routing/protectedRoutes";
+import { Outlet } from 'react-router-dom';
 import Sidebar from "global/layouts/LoggedInLayout/Sidebar";
 import Header from "global/layouts/LoggedInLayout/Header";
 import React, { useState, useEffect, createContext, useContext } from "react";
@@ -20,6 +21,7 @@ import { SidebarContext } from "global/contexts/SidebarContext";
 export const UserProfileContext = createContext({});
 const LoggedInLayout = ({ children }) => {
   const [userProfileData, setUserProfileData] = useState({ name: "" });
+  const theme = useTheme();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,118 +36,106 @@ const LoggedInLayout = ({ children }) => {
     fetchData();
   }, []);
 
-  const MainWrapper = styled(Box)(
-    ({ theme }) => `
-    padding: ${theme.spacing(0, 0, 4)};
   
-    .MuiDrawer-fm .MuiPaper-root {
-      top: 0;
-      height: 100%;
-    }
-  
-    .Mui-FixedWrapper .MuiPaper-root {
-      top: 0;
-      left: 0;
-    }
-    .MuiDrawer-hd .MuiPaper-root {
-      top: 0;
-      height: 100%;
-    }
-  
-    .footer-wrapper {
-      box-shadow: 0px 0px 2px ${theme.colors.alpha.black[30]};
-  }
-  `
-  );
-
-  const MainContent = styled(Container)(
-    ({ theme }) => `
-          margin-top: ${theme.spacing(-45)};
-          position: relative;
-          z-index: 55;
-  `
-  );
-
-  const CardWrapper = styled(Card)(
-    ({ theme }) => `
-          min-height: 100vh;
-          backdrop-filter: blur(5px);
-          border-radius: ${theme.general.borderRadiusXl};
-          background: ${alpha(theme.colors.alpha.white[100], 0.9)};
-  `
-  );
-
-  const SidebarWrapper = styled(Box)(
-    ({ theme }) => `
-          width: ${theme.sidebar.width};
-          min-width: ${theme.sidebar.width};
-          color: ${theme.sidebar.textColor};
-          background: ${theme.sidebar.background};
-          box-shadow: ${theme.sidebar.boxShadow};
-          position: relative;
-          z-index: 5;
-          height: 100%;
-          @media (min-width: ${theme.breakpoints.values.lg}px) {
-            height: calc(100% - ${theme.header.height});
-            margin-top: ${theme.header.height};
-          }
-  `
-  );
-
-  const TopSection = styled(Box)(
-    ({ theme }) => `
-          margin: ${theme.spacing(2, 2)};
-  `
-  );
-
-  const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
-  const closeSidebar = () => toggleSidebar();
-  const theme = useTheme();
 
   return (
     <UserProfileContext.Provider value={[userProfileData, setUserProfileData]}>
-      <MainWrapper>
-        <Header />
-        {/* <Sidebar /> */}
-        <MainContent maxWidth="xl">
-          <Box mx={8}>
-            <CardWrapper>
-              <ProtectedRoutes />
-              {children}
-            </CardWrapper>
-          </Box>
+      <Sidebar />
+      <Box
+        sx={{
+          position: 'relative',
+          zIndex: 5,
+          flex: 1,
+          display: 'flex',
 
-          <Drawer
-            sx={{
-              display: { lg: "none", xs: "inline-block" },
-            }}
-            anchor={theme.direction === "rtl" ? "right" : "left"}
-            open={sidebarToggle}
-            onClose={closeSidebar}
-            variant="temporary"
-            elevation={9}
-          >
-            <SidebarWrapper>
-              {/* <Scrollbar> */}
-              <TopSection>
-                <Box
-                  sx={{
-                    width: 52,
-                    ml: 1,
-                    mt: 1,
-                    mb: 3,
-                  }}
-                >
-                  <Logo />
-                </Box>
-                {/* <SidebarTopSection /> */}
-              </TopSection>
-              <SidebarMenu />
-              {/* </Scrollbar> */}
-            </SidebarWrapper>
-          </Drawer>
-        </MainContent>
-      </MainWrapper>
+          '.MuiDrawer-pw': {
+            '& .MuiDrawer-paper': {
+              width: `calc(400px + ${theme.spacing(3)})`,
+              background: 'none',
+              border: 0,
+              pl: 0
+            }
+          },
+
+          '.MuiDrawer-hd': {
+            '& .MuiDrawer-paper': {
+              background: 'none',
+              border: 0,
+              width: `calc(360px + ${theme.spacing(4)})`,
+              pl: 0
+            }
+          },
+
+          '.MuiDrawer-fm': {
+            '& .MuiDrawer-paper': {
+              borderRadius: theme.general.borderRadius,
+              width: `calc(400px - ${theme.spacing(3)})`,
+              height: `calc(100% - 80px - ${theme.spacing(6)})`,
+              m: 3
+            }
+          },
+
+          '.Mui-FixedWrapper': {
+            height: `calc(100vh - ${theme.spacing(17)})`,
+            minHeight: `calc(100vh - ${theme.spacing(17)})`,
+            margin: theme.spacing(4),
+            background: theme.colors.alpha.white[100],
+            borderRadius: theme.general.borderRadius,
+            overflow: 'hidden',
+            border: `${theme.colors.alpha.black[30]} solid 1px`,
+
+            '.Mui-FixedWrapperContent': {
+              overflow: 'auto',
+              height: `calc(100vh - ${theme.spacing(17.5)})`
+            },
+
+            '.MuiDrawer-root.MuiDrawer-docked': {
+              position: 'relative',
+
+              '.MuiPaper-root': {
+                height: `calc(100vh - ${theme.spacing(17)})`,
+                minHeight: `calc(100vh - ${theme.spacing(17)})`,
+                position: 'absolute',
+                top: 0,
+                left: 0
+              }
+            }
+          },
+
+          '.footer-wrapper': {
+            margin: 0,
+            background: 'transparent',
+            boxShadow: 'none'
+          },
+
+          '.MuiPageTitle-wrapper': {
+            pt: theme.spacing(3),
+            pb: theme.spacing(6)
+          }
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            flex: 1,
+            flexDirection: 'column',
+            width: `calc(100% - ${theme.sidebar.width} - ${theme.spacing(4)})`,
+            [theme.breakpoints.up('lg')]: {
+              ml: `calc(${theme.sidebar.width} + ${theme.spacing(4)})`
+            }
+          }}
+        >
+          <Box flexGrow={1}>
+            <Box>
+              <Header />
+              {/* <Outlet />*/}
+              <ProtectedRoutes/>
+              {children}
+            </Box>
+          </Box>
+          {/* <ThemeSettings /> */}
+        </Box>
+      </Box>
     </UserProfileContext.Provider>
   );
 };

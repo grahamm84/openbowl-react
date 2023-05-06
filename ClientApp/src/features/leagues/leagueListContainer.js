@@ -6,12 +6,16 @@ import {
   LinearProgress,
   Typography,
   Drawer,
+  List,
+  Card,
+  CardActions,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import ContentContainer from "global/layouts/LoggedInLayout/ContentContainer";
 import { AddTwoTone, HandshakeTwoTone } from "@mui/icons-material";
 import LeagueAddCard from "./components/leagueAddCard";
 import CreateLeagueDrawer from "./components/createLeagueDrawer";
+import LeagueListCard from "./components/leagueListCard";
 
 export default function LeagueListContainer() {
   const [loading, setLoading] = useState(false);
@@ -63,9 +67,20 @@ export default function LeagueListContainer() {
   const renderLeagueList = () => {
     return leagues.map((league, index) => {
       return (
-        <Typography key={index} variant="h5">
-          {league.leagueName}
-        </Typography>
+        <Grid item xs={12}>
+        <Card>
+        <List disablePadding> 
+        <LeagueListCard 
+          key={index} 
+          league={league} 
+          />
+        </List>
+        <CardActions>
+
+        </CardActions>
+        </Card>
+      </Grid>
+        
       );
     });
   };
@@ -73,18 +88,18 @@ export default function LeagueListContainer() {
   return (
     <ContentContainer
       title="My Leagues"
-      subtitle="View and Manage leagues"
+      subtitle="View and Manage your bowling leagues"
       icon={<HandshakeTwoTone fontSize="large" />}
-      action={
-        <Button
-          color="primary"
-          variant="contained"
-          startIcon={<AddTwoTone fontSize="large" />}
-          onClick={(e) => openDrawer()}
-        >
-          Add League
-        </Button>
-      }
+      // action={
+      //   <Button
+      //     color="primary"
+      //     variant="contained"
+      //     startIcon={<AddTwoTone fontSize="large" />}
+      //     onClick={(e) => openDrawer()}
+      //   >
+      //     Create New League
+      //   </Button>
+      // }
     >
       {loading ? renderLoadingBar() : renderLeagueList()}
       <LeagueAddCard onClick={openDrawer} />

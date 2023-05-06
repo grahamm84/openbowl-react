@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation,matchPath } from "react-router-dom";
 
 import {
   ListSubheader,
@@ -8,7 +8,7 @@ import {
   List,
   styled,
   Button,
-  ListItem,
+  ListItem,lighten,darken
 } from "@mui/material";
 
 import { SidebarContext } from "../../contexts/SidebarContext";
@@ -16,89 +16,161 @@ import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
 import { HomeTwoTone, PersonOutlineTwoTone } from "@mui/icons-material";
 import PermissionWrapperVisibility from "global/components/PermissionWrapper";
 import { Users_View } from "global/helpers/UserRoleConstants";
+import SidebarMenuItem from "./Sidebar/SidebarMenuItem";
+import menuItems from './Sidebar/items';
 
 const MenuWrapper = styled(Box)(
-  () => `
+  ({ theme }) => `
   .MuiList-root {
+    margin-bottom: ${theme.spacing(1.5)};
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
 
     & > .MuiList-root {
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-      flex-wrap: wrap;
+      padding: 0 ${theme.spacing(0)} ${theme.spacing(1)};
     }
   }
+
+    .MuiListSubheader-root {
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: ${theme.typography.pxToRem(12)};
+      color: ${theme.sidebar.menuItemIconColor};
+      padding: ${theme.spacing(1, 3.5)};
+      line-height: 1.4;
+    }
 `
 );
 
 const SubMenuWrapper = styled(Box)(
   ({ theme }) => `
-    width: 100%;
     .MuiList-root {
       padding: 0;
-      display: flex;
-      flex-direction: row;
-      
-      .MuiList-root .MuiList-root .MuiListItem-root .MuiIconButton-root {
-        font-weight: normal !important;
-      }
 
       .MuiListItem-root {
-        padding: 0 2px;
-        justify-content: center;
-        width: auto;
-
-        &:last-child {
-          margin-left: auto;
-        }
+        padding: 1px ${theme.spacing(2)};
     
-        .MuiIconButton-root {
+        .MuiButton-root {
           display: flex;
-          background-color: transparent;
-          border-radius: ${theme.general.borderRadiusLg};
-          justify-content: center;
-          font-size: ${theme.typography.pxToRem(14)};
-          padding: ${theme.spacing(1.4, 2)};
+          color: ${theme.sidebar.menuItemColor};
+          background-color: ${theme.sidebar.menuItemBg};
+          width: 100%;
+          justify-content: flex-start;
+          padding: ${theme.spacing(1, 2)};
           position: relative;
-          font-weight: bold;
-          color: ${theme.colors.alpha.trueWhite[100]};
-
-          .name-wrapper {
-            transition: ${theme.transitions.create(["color"])};
-          }
 
           .MuiBadge-root {
             position: absolute;
-            right: 16px;
-            top: 12px;
+            right: ${theme.spacing(3.5)};
 
-            .MuiBadge-badge {
-              background: ${theme.colors.alpha.white[70]};
-              color: ${theme.colors.alpha.black[100]};
-              font-size: ${theme.typography.pxToRem(11)};
+            .MuiBadge-standard {
+              background: ${theme.colors.primary.main};
+              border-radius: ${theme.general.borderRadiusSm};
+              font-size: ${theme.typography.pxToRem(10)};
               font-weight: bold;
               text-transform: uppercase;
+              color: ${theme.palette.primary.contrastText};
             }
           }
-  
-          .MuiSvgIcon-root {
-            transition: ${theme.transitions.create(["color"])};
-            font-size: ${theme.typography.pxToRem(24)};
-            margin-right: ${theme.spacing(1)};
-            color: ${theme.colors.alpha.trueWhite[50]};
+    
+          .MuiButton-startIcon,
+          .MuiButton-endIcon {
+            transition: ${theme.transitions.create(['color'])};
+
+            .MuiSvgIcon-root {
+              font-size: inherit;
+              transition: none;
+            }
+          }
+
+          .MuiButton-startIcon {
+            transition: ${theme.transitions.create(['all'])};
+            border-radius: ${theme.general.borderRadius};
+            background: ${lighten(theme.sidebar.menuItemBgActive, 0.1)};
+            box-shadow: 0px 1px 2px 0 ${alpha(
+              darken(theme.sidebar.menuItemIconColor, 0.2),
+              0.46
+            )};
+            font-size: ${theme.typography.pxToRem(18)};
+            margin-right: ${theme.spacing(1.5)};
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: ${
+              theme.palette.mode === 'dark'
+                ? lighten(theme.sidebar.menuItemBgActive, 0.8)
+                : theme.sidebar.menuItemIconColor
+            };
+          }
+          
+          .MuiButton-endIcon {
+            margin-left: auto;
+            font-size: ${theme.typography.pxToRem(20)};
+          }
+          
+          .MuiButton-StartIcon {
+            font-size: ${theme.typography.pxToRem(20)};
           }
 
           &.active,
           &:hover {
-            background-color: ${theme.colors.alpha.white[10]};
+            color: ${theme.sidebar.menuItemColorActive};
 
-            .MuiSvgIcon-root {
-              color: ${theme.colors.alpha.trueWhite[100]};
+            .MuiButton-startIcon,
+            .MuiButton-endIcon {
+                color: ${theme.sidebar.menuItemColorActive};
+            }
+          }
+
+          &.active {
+            background-color: ${alpha(theme.sidebar.menuItemBgActive, 0.8)};
+            box-shadow: 0px 1px 2px 0 ${alpha(
+              darken(theme.sidebar.menuItemIconColor, 0.2),
+              0.46
+            )};
+            color: ${theme.sidebar.menuItemColorActive};
+            font-weight: bold;
+
+
+            .MuiButton-startIcon {
+                background: ${theme.colors.primary.main};
+                color: ${theme.palette.primary.contrastText};
+            }
+          }
+        }
+
+        &.Mui-children {
+          flex-direction: column;
+
+          .MuiBadge-root {
+            position: absolute;
+            right: ${theme.spacing(6)};
+          }
+        }
+
+        .MuiCollapse-root {
+          width: 100%;
+
+          .MuiList-root {
+            padding: ${theme.spacing(1.5, 0)};
+          }
+
+          .MuiListItem-root {
+            padding: ${theme.spacing(0)};
+
+            .MuiButton-root {
+              padding: ${theme.spacing(0.7, 2, 0.7, 7)};
+
+              .MuiBadge-root {
+                right: ${theme.spacing(2.5)};
+              }
+
+              &.active,
+              &:hover {
+                box-shadow: none;
+                background-color: ${theme.sidebar.menuItemBg};
+              }
             }
           }
         }
@@ -107,115 +179,209 @@ const SubMenuWrapper = styled(Box)(
 `
 );
 
+const renderSidebarMenuItems = ({ items, path }) => (
+  <SubMenuWrapper>
+    <List component="div">
+      {items.reduce((ev, item) => reduceChildRoutes({ ev, item, path }), [])}
+    </List>
+  </SubMenuWrapper>
+);
+
+const reduceChildRoutes = ({ ev, path, item }) => {
+  const key = item.name;
+
+  const exactMatch = item.link
+    ? !!matchPath(
+        {
+          path: item.link,
+          end: true
+        },
+        path
+      )
+    : false;
+
+  if (item.items) {
+    const partialMatch = item.link
+      ? !!matchPath(
+          {
+            path: item.link,
+            end: false
+          },
+          path
+        )
+      : false;
+
+    ev.push(
+      <SidebarMenuItem
+        key={key}
+        active={partialMatch}
+        open={partialMatch}
+        name={item.name}
+        icon={item.icon}
+        link={item.link}
+        badge={item.badge}
+        badgeTooltip={item.badgeTooltip}
+      >
+        {renderSidebarMenuItems({
+          path,
+          items: item.items
+        })}
+      </SidebarMenuItem>
+    );
+  } else {
+    ev.push(
+      <SidebarMenuItem
+        key={key}
+        active={exactMatch}
+        name={item.name}
+        link={item.link}
+        badge={item.badge}
+        badgeTooltip={item.badgeTooltip}
+        icon={item.icon}
+      />
+    );
+  }
+
+  return ev;
+};
+
 function SidebarMenu() {
-  const { closeSidebar } = useContext(SidebarContext);
   const location = useLocation();
-  const currentRoute = location.pathname;
 
   return (
     <>
-      <MenuWrapper>
-        <List component="div">
-          <SubMenuWrapper>
-            <List component="div">
-              <ListItem component="div">
-                <Button
-                  component={Link}
-                  to="/homepage"
-                  className={currentRoute === "/homepage" ? "active" : ""}
-                  disableRipple
-                  onClick={closeSidebar}
-                  startIcon={<HomeTwoTone />}
-                >
-                  Home
-                </Button>
-              </ListItem>
-            </List>
-          </SubMenuWrapper>
-        </List>
-        <List
-          component="div"
-          subheader={
-            <ListSubheader component="div" disableSticky>
-              Pages
-            </ListSubheader>
-          }
-        >
-          <SubMenuWrapper>
-            <List component="div">
-              <ListItem component="div">
-                <Button
-                  className={currentRoute === "/blank" ? "active" : ""}
-                  disableRipple
-                  component={Link}
-                  to="/blank"
-                  onClick={closeSidebar}
-                  startIcon={<PersonOutlineTwoTone />}
-                >
-                  Blank Page
-                </Button>
-              </ListItem>
-            </List>
-          </SubMenuWrapper>
-        </List>
-        <List
-          component="div"
-          subheader={
-            <ListSubheader component="div" disableSticky>
-              Management
-            </ListSubheader>
-          }
-        >
-          <SubMenuWrapper>
-            <List component="div">
-              <ListItem component="div">
-                <Button
-                  className={currentRoute === "/profile" ? "active" : ""}
-                  disableRipple
-                  component={Link}
-                  to="/profile"
-                  onClick={closeSidebar}
-                  startIcon={<PersonOutlineTwoTone />}
-                >
-                  Your Profile
-                </Button>
-              </ListItem>
-            </List>
-          </SubMenuWrapper>
-        </List>
-
-        <PermissionWrapperVisibility permissions={[Users_View]}>
+      {menuItems.map((section) => (
+        <MenuWrapper key={section.heading}>
           <List
             component="div"
             subheader={
               <ListSubheader component="div" disableSticky>
-                Configuration
+                {section.heading}
               </ListSubheader>
             }
           >
-            <SubMenuWrapper>
-              <List component="div">
-                <PermissionWrapperVisibility permissions={[Users_View]}>
-                  <ListItem component="div">
-                    <Button
-                      className={currentRoute === "/users" ? "active" : ""}
-                      disableRipple
-                      component={Link}
-                      to="/users"
-                      onClick={closeSidebar}
-                      startIcon={<AccountCircleTwoToneIcon />}
-                    >
-                      Users
-                    </Button>
-                  </ListItem>
-                </PermissionWrapperVisibility>
-              </List>
-            </SubMenuWrapper>
+            {renderSidebarMenuItems({
+              items: section.items,
+              path: location.pathname
+            })}
           </List>
-        </PermissionWrapperVisibility>
-      </MenuWrapper>
+        </MenuWrapper>
+      ))}
     </>
   );
 }
 
 export default SidebarMenu;
+
+// function SidebarMenu() {
+//   const { closeSidebar } = useContext(SidebarContext);
+//   const location = useLocation();
+//   const currentRoute = location.pathname;
+
+//   return (
+//     <>
+//       <MenuWrapper>
+//         <List component="div">
+//           <SubMenuWrapper>
+//             <List component="div">
+//               <ListItem component="div">
+//                 <Button
+//                   component={Link}
+//                   to="/homepage"
+//                   className={currentRoute === "/homepage" ? "active" : ""}
+//                   disableRipple
+//                   onClick={closeSidebar}
+//                   startIcon={<HomeTwoTone />}
+//                 >
+//                   Home
+//                 </Button>
+//               </ListItem>
+//             </List>
+//           </SubMenuWrapper>
+//         </List>
+//         <List
+//           component="div"
+//           subheader={
+//             <ListSubheader component="div" disableSticky>
+//               Pages
+//             </ListSubheader>
+//           }
+//         >
+//           <SubMenuWrapper>
+//             <List component="div">
+//               <ListItem component="div">
+//                 <Button
+//                   className={currentRoute === "/blank" ? "active" : ""}
+//                   disableRipple
+//                   component={Link}
+//                   to="/blank"
+//                   onClick={closeSidebar}
+//                   startIcon={<PersonOutlineTwoTone />}
+//                 >
+//                   Blank Page
+//                 </Button>
+//               </ListItem>
+//             </List>
+//           </SubMenuWrapper>
+//         </List>
+//         <List
+//           component="div"
+//           subheader={
+//             <ListSubheader component="div" disableSticky>
+//               Management
+//             </ListSubheader>
+//           }
+//         >
+//           <SubMenuWrapper>
+//             <List component="div">
+//               <ListItem component="div">
+//                 <Button
+//                   className={currentRoute === "/profile" ? "active" : ""}
+//                   disableRipple
+//                   component={Link}
+//                   to="/profile"
+//                   onClick={closeSidebar}
+//                   startIcon={<PersonOutlineTwoTone />}
+//                 >
+//                   Your Profile
+//                 </Button>
+//               </ListItem>
+//             </List>
+//           </SubMenuWrapper>
+//         </List>
+
+//         <PermissionWrapperVisibility permissions={[Users_View]}>
+//           <List
+//             component="div"
+//             subheader={
+//               <ListSubheader component="div" disableSticky>
+//                 Configuration
+//               </ListSubheader>
+//             }
+//           >
+//             <SubMenuWrapper>
+//               <List component="div">
+//                 <PermissionWrapperVisibility permissions={[Users_View]}>
+//                   <ListItem component="div">
+//                     <Button
+//                       className={currentRoute === "/users" ? "active" : ""}
+//                       disableRipple
+//                       component={Link}
+//                       to="/users"
+//                       onClick={closeSidebar}
+//                       startIcon={<AccountCircleTwoToneIcon />}
+//                     >
+//                       Users
+//                     </Button>
+//                   </ListItem>
+//                 </PermissionWrapperVisibility>
+//               </List>
+//             </SubMenuWrapper>
+//           </List>
+//         </PermissionWrapperVisibility>
+//       </MenuWrapper>
+//     </>
+//   );
+// }
+
+// export default SidebarMenu;

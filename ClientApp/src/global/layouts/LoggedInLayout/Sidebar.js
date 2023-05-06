@@ -11,6 +11,8 @@ import {
   Button,
   lighten,
   darken,
+  Card,
+  theme
 } from "@mui/material";
 
 import SidebarMenu from "./SidebarMenu";
@@ -19,15 +21,29 @@ import Logo from "global/components/logo/Logo";
 import Footer from "global/components/Footer";
 import Label from "global/components/Label";
 
-const SidebarWrapper = styled(Box)(
+const SidebarWrapper = styled(Card)(
   ({ theme }) => `
-        width: ${theme.sidebar.width};
-        min-width: ${theme.sidebar.width};
-        color: ${theme.colors.alpha.trueWhite[70]};
-        position: relative;
-        z-index: 7;
-        height: 100%;
-        padding-bottom: 68px;
+    width: ${theme.sidebar.width};
+    background: ${theme.sidebar.background};
+    height: 100%;
+    
+    @media (min-width: ${theme.breakpoints.values.lg}px) {
+        position: fixed;
+        height: calc(100% - ${theme.spacing(8)});
+        margin: ${theme.spacing(4, 0, 4, 4)};
+        z-index: 10;
+        border-radius: ${theme.general.borderRadius};
+    }
+`
+);
+
+const TopSection = styled(Box)(
+  ({ theme }) => `
+        display: flex;
+        height: 80px;
+        align-items: center;
+        margin: 0 ${theme.spacing(2)};
+        border-bottom: ${theme.sidebar.dividerBg} solid 1px;
 `
 );
 
@@ -40,86 +56,39 @@ function Sidebar() {
     <>
       <SidebarWrapper
         sx={{
-          display: {
-            xs: "none",
-            lg: "inline-block",
-          },
-          position: "fixed",
-          left: 0,
-          top: 0,
-          background:
-            theme.palette.mode === "dark"
-              ? alpha(lighten(theme.header.background, 0.1), 0.5)
-              : darken(theme.colors.alpha.black[100], 0.5),
-          boxShadow:
-            theme.palette.mode === "dark" ? theme.sidebar.boxShadow : "none",
+          display: { xs: 'none', lg: 'inline-block' }
         }}
       >
-        <Scrollbar>
-          <Box mt={3}>
-            <Box
-              mx={2}
-              sx={{
-                width: 52,
-              }}
-            >
-              <Logo />
-            </Box>
-          </Box>
-          <Divider
-            sx={{
-              mt: theme.spacing(3),
-              mx: theme.spacing(2),
-              background: theme.colors.alpha.trueWhite[10],
-            }}
-          />
-          <SidebarMenu />
-        </Scrollbar>
-        <Divider
+        <TopSection>
+          <Logo />
+        </TopSection>
+        <Box
           sx={{
-            background: theme.colors.alpha.trueWhite[10],
+            height: 'calc(100% - 80px)'
           }}
-        />
-        <Box p={2}>
-          <Label>Sidebar Bottom </Label>
+        >
+          <Scrollbar>
+            <Box pt={1}>
+              <SidebarMenu />
+            </Box>
+          </Scrollbar>
         </Box>
       </SidebarWrapper>
       <Drawer
         sx={{
-          boxShadow: `${theme.sidebar.boxShadow}`,
+          display: { lg: 'none', xs: 'inline-block' }
         }}
-        anchor={theme.direction === "rtl" ? "right" : "left"}
+        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
         open={sidebarToggle}
         onClose={closeSidebar}
         variant="temporary"
         elevation={9}
       >
-        <SidebarWrapper
-          sx={{
-            background:
-              theme.palette.mode === "dark"
-                ? theme.colors.alpha.white[100]
-                : darken(theme.colors.alpha.black[100], 0.5),
-          }}
-        >
+        <SidebarWrapper>
           <Scrollbar>
-            <Box mt={3}>
-              <Box
-                mx={2}
-                sx={{
-                  width: 52,
-                }}
-              >
-                <Logo />
-              </Box>
-            </Box>
-            <Divider
-              sx={{
-                mt: theme.spacing(3),
-                mx: theme.spacing(2),
-                background: theme.colors.alpha.trueWhite[10],
-              }}
-            />
+            <TopSection>
+              <Logo />
+            </TopSection>
             <SidebarMenu />
           </Scrollbar>
         </SidebarWrapper>
@@ -129,3 +98,4 @@ function Sidebar() {
 }
 
 export default Sidebar;
+

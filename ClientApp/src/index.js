@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import { App } from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { createBrowserHistory } from "history";
+// import { createBrowserHistory } from "history";
 import { BrowserRouter } from "react-router-dom";
 import { ProvideAuth } from "./global/useAuth";
 import { SidebarProvider } from "global/contexts/SidebarContext";

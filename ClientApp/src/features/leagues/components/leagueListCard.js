@@ -1,42 +1,16 @@
-import { useState } from "react";
 import {
   Button,
   Typography,
-  Card,
   Box,
-  Grid,
-  CardContent,
-  CardHeader,
   Link,
-  Divider,
-  Tabs,
-  Tab,
   Chip,
-  List,
   ListItem,
-  IconButton,
   ListItemAvatar,
   ListItemText,
-  Avatar,
   useTheme,
-  Pagination,
-  CardActions,
-  styled,
   Stack,
 } from "@mui/material";
-import { useSnackbar } from "notistack";
-import CheckTwoToneIcon from "@mui/icons-material/CheckTwoTone";
-import PendingTwoToneIcon from "@mui/icons-material/PendingTwoTone";
-import LocalFireDepartmentTwoToneIcon from "@mui/icons-material/LocalFireDepartmentTwoTone";
-import TimerTwoToneIcon from "@mui/icons-material/TimerTwoTone";
-import NotificationsActiveTwoToneIcon from "@mui/icons-material/NotificationsActiveTwoTone";
-import InsertInvitationTwoToneIcon from "@mui/icons-material/InsertInvitationTwoTone";
-import MarkEmailReadTwoToneIcon from "@mui/icons-material/MarkEmailReadTwoTone";
-import Text from "global/components/Text";
-import NoUpcomingFixtures from "features/fixtures/components/noUpcomingFixtures";
-import ContentContainer from "global/layouts/LoggedInLayout/ContentContainer";
 import LeagueListCardStatusDisplay from "./leagueListCardStatusDisplay";
-import { CompareArrowsTwoTone, ScoreTwoTone } from "@mui/icons-material";
 import LeagueCardHighestScore from "./leagueCardHighestScore";
 import LeagueCardAverageScore from "./leagueCardAverageScore";
 import LeagueCardAverageHandicap from "./leagueCardAverageHandicap";
@@ -96,18 +70,23 @@ export default function LeagueListCard(props) {
                 pb: 1,
               }}
             >
-              {renderLeagueTags(props.league?.playersPerTeam, props.league?.teamCount)}
+              {renderLeagueTags(
+                props.league?.playersPerTeam,
+                props.league?.startingTeams
+              )}
             </Box>
             <Link
               underline="none"
               sx={{
                 "&:hover": { color: theme.colors.primary.dark },
               }}
-              href="#"
+              href={`league/${props?.league?.leagueUid}`}
             >
               {props.league?.leagueName}
             </Link>
-            <Typography variant="body2">{props.league?.leagueIntroduction}</Typography>
+            <Typography variant="body2">
+              {props.league?.leagueIntroduction}
+            </Typography>
           </>
         }
         primaryTypographyProps={{ variant: "h3" }}
@@ -115,7 +94,9 @@ export default function LeagueListCard(props) {
           <>
             March 14, 2021 - March 28, 2021
             <Stack direction="row" spacing={2}>
-              <LeagueListCardStatusDisplay leagueStatus={props.league?.leagueStatus} />
+              <LeagueListCardStatusDisplay
+                leagueStatus={props.league?.leagueStatus}
+              />
             </Stack>
           </>
         }
@@ -133,9 +114,15 @@ export default function LeagueListCard(props) {
         justifyContent="flex-right"
       >
         <Stack>
-          <LeagueCardHighestScore value={props?.league?.leagueStatistics?.highestScore} />
-          <LeagueCardAverageScore value={props?.league?.leagueStatistics?.leagueAverageScore} />
-          <LeagueCardAverageHandicap value={props?.league?.leagueStatistics?.averageHandicap} />
+          <LeagueCardHighestScore
+            value={props?.league?.leagueStatistics?.highestScore}
+          />
+          <LeagueCardAverageScore
+            value={props?.league?.leagueStatistics?.leagueAverageScore}
+          />
+          <LeagueCardAverageHandicap
+            value={props?.league?.leagueStatistics?.averageHandicap}
+          />
         </Stack>
 
         <Button
@@ -144,6 +131,7 @@ export default function LeagueListCard(props) {
           }}
           variant="outlined"
           size="small"
+          to={`league/${props?.league?.leagueUid}`}
         >
           View League
         </Button>

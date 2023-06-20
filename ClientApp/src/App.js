@@ -9,6 +9,9 @@ import { themeCreator } from "global/theme/base";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CssBaseline } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+//import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 
 function App() {
   const auth = useAuth();
@@ -25,20 +28,21 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <ToastContainer
-        position="bottom-left"
-        autoClose={2500}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
-      <CssBaseline />
-      {/* <Box
+      <LocalizationProvider dateAdapter={AdapterMoment}>
+        <ToastContainer
+          position="bottom-left"
+          autoClose={2500}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
+        <CssBaseline />
+        {/* <Box
         sx={{
           display: "flex",
           flex: 1,
@@ -46,8 +50,9 @@ function App() {
           background: `${theme.palette.background.default}`,
         }}
       > */}
-      {auth.user ? <LoggedInLayout /> : <GuestLayout />}
-      {/* </Box> */}
+        {auth.user ? <LoggedInLayout /> : <GuestLayout />}
+        {/* </Box> */}
+      </LocalizationProvider>
     </ThemeProvider>
   );
 }

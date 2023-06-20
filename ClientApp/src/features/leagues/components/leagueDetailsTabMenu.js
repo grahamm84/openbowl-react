@@ -42,8 +42,11 @@ import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 
 import MoreVertTwoToneIcon from "@mui/icons-material/MoreVertTwoTone";
 import { useNavigate } from "react-router-dom";
+import PermissionWrapperVisibility from "global/components/PermissionWrapper";
 
 function LeagueDetailsTabMenu(props) {
+  const [leagueUid, setLeagueUid] = useState(props.leagueUid);
+
   const TabsWrapper = styled(Tabs)(
     ({ theme }) => `
       @media (max-width: ${theme.breakpoints.values.md}px) {
@@ -61,10 +64,20 @@ function LeagueDetailsTabMenu(props) {
   const navigate = useNavigate();
 
   const handleTabsChange = (_event, tabsValue) => {
-    let value = null;
+    console.log("tab change", tabsValue, leagueUid);
 
-    if (tabsValue !== "all") {
-      navigate(`/${tabsValue.url}}`);
+    if (tabsValue === "dashboard") {
+      navigate(`/league/${leagueUid}`);
+    } else if (tabsValue === "table") {
+      navigate(`/league/${leagueUid}/table`);
+    } else if (tabsValue === "fixtures") {
+      navigate(`/league/${leagueUid}/fixtures`);
+    } else if (tabsValue === "stats") {
+      navigate(`/league/${leagueUid}/statistics`);
+    } else if (tabsValue === "results") {
+      navigate(`/league/${leagueUid}/results`);
+    } else if (tabsValue === "admin") {
+      navigate(`/league/${leagueUid}/admin`);
     }
   };
 
@@ -83,6 +96,11 @@ function LeagueDetailsTabMenu(props) {
       value: "fixtures",
       label: "Fixtures",
       url: "fixtures",
+    },
+    {
+      value: "results",
+      label: "Results",
+      url: "results",
     },
     {
       value: "stats",
@@ -106,9 +124,9 @@ function LeagueDetailsTabMenu(props) {
         value={props.activeTab}
         variant="scrollable"
       >
-        {tabs.map((tab) => (
-          <Tab key={tab.value} value={tab.value} label={tab.label} />
-        ))}
+        {tabs.map((tab) => {
+          return <Tab key={tab.value} value={tab.value} label={tab.label} />;
+        })}
       </TabsWrapper>
     </Box>
   );

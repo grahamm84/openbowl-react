@@ -10,6 +10,11 @@ import BlankFeature from "features/blankfeature/BlankFeature";
 import LeagueListContainer from "features/leagues/leagueListContainer";
 import LeagueDetailsContainer from "features/leagues/leagueDetailsContainer";
 import LeaguesContainer from "features/leagues/leaguesContainer";
+import LeagueTableContainer from "features/leagues/leagueTableContainer";
+import LeagueFixturesContainer from "features/leagues/leagueFixturesContainer";
+import LeagueStatisticsContainer from "features/leagues/leagueStatisticsContainer";
+import LeagueResultsContainer from "features/leagues/leagueResultsContainer";
+import LeagueAdminContainer from "features/leagues/leagueAdminContainer";
 export function ProtectedRoutes() {
   return (
     <Routes>
@@ -24,9 +29,35 @@ export function ProtectedRoutes() {
       <Route exact path="/leagues" element={<LeaguesContainer />} />
       <Route
         exact
+        path="/league/:leagueUid/table"
+        element={<LeagueTableContainer />}
+      />
+      <Route
+        exact
+        path="/league/:leagueUid/fixtures"
+        element={<LeagueFixturesContainer />}
+      />
+      <Route
+        exact
+        path="/league/:leagueUid/statistics"
+        element={<LeagueStatisticsContainer />}
+      />
+      <Route
+        exact
+        path="/league/:leagueUid/results"
+        element={<LeagueResultsContainer />}
+      />
+      <Route
+        exact
+        path="/league/:leagueUid/admin"
+        element={<LeagueAdminContainer />}
+      />
+      <Route
+        exact
         path="/league/:leagueUid"
         element={<LeagueDetailsContainer />}
       />
+
       <Route path="*" element={<Navigate to="/home" replace />} />
     </Routes>
   );

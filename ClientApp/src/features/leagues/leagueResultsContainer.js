@@ -9,7 +9,7 @@ import { useTheme } from "@mui/material";
 
 import LeagueDetailsTabMenu from "./components/leagueDetailsTabMenu";
 
-export default function LeagueDetailsContainer() {
+export default function LeagueResultsContainer() {
   const [loading, setLoading] = useState(false);
   const [league, setLeague] = useState([{}]);
   const [leagueUpdated, setLeagueUpdated] = useState(0);
@@ -45,7 +45,7 @@ export default function LeagueDetailsContainer() {
     return (
       <>
         <Grid item xs={12}>
-          <h3>Test</h3>
+          <h3>Test Results</h3>
         </Grid>
       </>
     );
@@ -53,15 +53,16 @@ export default function LeagueDetailsContainer() {
 
   return (
     <ContentContainer
-      title={league.leagueName ?? "League Details"}
+      title={league.leagueName ?? "League Results"}
       //subtitle="View and Manage your bowling leagues"
       icon={<HandshakeTwoTone fontSize="large" />}
     >
       <Grid item xs={12}>
         <LeagueDetailsTabMenu
-          activeTab="dashboard"
+          activeTab="results"
           leagueUid={params.leagueUid}
         />
+
         {loading ? renderLoadingBar() : renderContent()}
       </Grid>
     </ContentContainer>

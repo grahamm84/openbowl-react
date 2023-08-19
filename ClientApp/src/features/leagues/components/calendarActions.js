@@ -20,7 +20,7 @@ const viewOptions = [
   },
   {
     label: "Agenda",
-    value: "listWeek",
+    value: "listMonth",
     icon: ViewAgendaTwoToneIcon,
   },
 ];
@@ -115,7 +115,7 @@ CalendarActions.propTypes = {
     "dayGridMonth",
     "timeGridWeek",
     "timeGridDay",
-    "listWeek",
+    "listMonth",
   ]),
 };
 

@@ -1,72 +1,81 @@
-import AnalyticsTwoToneIcon from '@mui/icons-material/AnalyticsTwoTone';
-import HealthAndSafetyTwoToneIcon from '@mui/icons-material/HealthAndSafetyTwoTone';
-import AssignmentIndTwoToneIcon from '@mui/icons-material/AssignmentIndTwoTone';
-import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
-import StorefrontTwoToneIcon from '@mui/icons-material/StorefrontTwoTone';
-import VpnKeyTwoToneIcon from '@mui/icons-material/VpnKeyTwoTone';
-import ErrorTwoToneIcon from '@mui/icons-material/ErrorTwoTone';
-import DesignServicesTwoToneIcon from '@mui/icons-material/DesignServicesTwoTone';
-import SupportTwoToneIcon from '@mui/icons-material/SupportTwoTone';
-import ReceiptTwoToneIcon from '@mui/icons-material/ReceiptTwoTone';
-import BackupTableTwoToneIcon from '@mui/icons-material/BackupTableTwoTone';
-import SmartToyTwoToneIcon from '@mui/icons-material/SmartToyTwoTone';
-import { HomeTwoTone, PersonOutlineTwoTone } from '@mui/icons-material';
+import AnalyticsTwoToneIcon from "@mui/icons-material/AnalyticsTwoTone";
+import HealthAndSafetyTwoToneIcon from "@mui/icons-material/HealthAndSafetyTwoTone";
+import AssignmentIndTwoToneIcon from "@mui/icons-material/AssignmentIndTwoTone";
+import AccountTreeTwoToneIcon from "@mui/icons-material/AccountTreeTwoTone";
+import StorefrontTwoToneIcon from "@mui/icons-material/StorefrontTwoTone";
+import VpnKeyTwoToneIcon from "@mui/icons-material/VpnKeyTwoTone";
+import ErrorTwoToneIcon from "@mui/icons-material/ErrorTwoTone";
+import DesignServicesTwoToneIcon from "@mui/icons-material/DesignServicesTwoTone";
+import SupportTwoToneIcon from "@mui/icons-material/SupportTwoTone";
+import ReceiptTwoToneIcon from "@mui/icons-material/ReceiptTwoTone";
+import BackupTableTwoToneIcon from "@mui/icons-material/BackupTableTwoTone";
+import SmartToyTwoToneIcon from "@mui/icons-material/SmartToyTwoTone";
+import {
+  EmojiEventsTwoTone,
+  HomeTwoTone,
+  PersonOutlineTwoTone,
+} from "@mui/icons-material";
 
 const menuItems = [
   {
-    heading: 'General',
+    heading: "General",
     items: [
       {
-        name: 'Home',
+        name: "Home",
         icon: HomeTwoTone,
-        link: '/home'
+        link: "/home",
       },
       {
-        name: 'Leagues',
+        name: "Leagues",
         icon: SmartToyTwoToneIcon,
-        link: '/my-leagues'
+        link: "/my-leagues",
       },
       {
-        name: 'League Search',
+        name: "League Search",
         icon: SmartToyTwoToneIcon,
-        link: '/league-search'
+        link: "/league-search",
       },
       {
-        name: 'Fixtures',
+        name: "Fixtures",
         icon: HealthAndSafetyTwoToneIcon,
-        link: '/boxed-sidebar/blocks',
+        link: "/boxed-sidebar/blocks",
       },
       {
-        name: 'Statistics',
+        name: "Statistics",
         icon: AnalyticsTwoToneIcon,
-        link: '/boxed-sidebar/applications',
-      }
-    ]
+        link: "/boxed-sidebar/applications",
+      },
+    ],
   },
   {
-    heading: 'Management',
+    heading: "Management",
     items: [
       {
-        name: 'Your Profile',
+        name: "Your Profile",
         icon: PersonOutlineTwoTone,
-        link: '/profile',
+        link: "/profile",
       },
       {
-        name: 'Messages',
+        name: "Messages",
         icon: AccountTreeTwoToneIcon,
-        link: '/messages'
-      }
-    ]
+        link: "/messages",
+      },
+    ],
   },
   {
-    heading: 'Admin',
+    heading: "Admin",
     items: [
       {
-        name: 'Users',
+        name: "League Admin",
+        icon: EmojiEventsTwoTone,
+        link: "/league-admin",
+      },
+      {
+        name: "Users",
         icon: AssignmentIndTwoToneIcon,
-        link: '/users',
-      }
-    ]
+        link: "/users",
+      },
+    ],
   },
 ];
 

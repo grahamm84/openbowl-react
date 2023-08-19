@@ -9,7 +9,7 @@ import { useTheme } from "@mui/material";
 
 import LeagueDetailsTabMenu from "./components/leagueDetailsTabMenu";
 import PermissionWrapperVisibility from "global/components/PermissionWrapper";
-import AdminGenerateFixtures from "./components/adminGenerateFixtures";
+import AdminGenerateFixtures from "./components/adminGenerateLeagueSchedule";
 import FixtureCalendar from "./components/fixtureCalendar";
 
 export default function LeagueFixturesContainer(props) {
@@ -56,7 +56,6 @@ export default function LeagueFixturesContainer(props) {
               <Typography>
                 There are no fixtures for this league yet.
               </Typography>
-              <AdminGenerateFixtures teamCount={fixtures?.teams?.length ?? 4} />
             </>
           )}
           {fixtures?.length > 0 && <FixtureCalendar events={fixtures} />}

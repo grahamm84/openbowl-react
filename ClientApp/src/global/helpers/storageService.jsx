@@ -5,6 +5,7 @@ const refreshTokenKey = storagePrefixKey + "_rt";
 const userKey = storagePrefixKey + "_uid";
 const usernameKey = storagePrefixKey + "_un";
 const displayNameKey = storagePrefixKey + "_dn";
+const selectedAdminLeagueKey = storagePrefixKey + "_sal";
 
 function getAuthToken() {
   let token = localStorage.getItem(authTokenKey);
@@ -83,6 +84,35 @@ function clearUser() {
   window.location = "/";
 }
 
+function saveSelectedAdminLeague(selectedAdminLeague) {
+  localStorage.setItem(selectedAdminLeagueKey, selectedAdminLeague);
+}
+function getSelectedAdminLeague() {
+  let adminLeague = localStorage.getItem(selectedAdminLeagueKey);
+  if (adminLeague !== null) {
+    return JSON.parse(adminLeague);
+  }
+  return adminLeague ?? undefined;
+}
+
+function getSelectedAdminLeagueName() {
+  let adminLeague = localStorage.getItem(selectedAdminLeagueKey);
+  if (adminLeague !== null) {
+    var adminLeagueName = JSON.parse(adminLeague).adminLeagueName;
+    return adminLeagueName;
+  }
+  return adminLeague ?? undefined;
+}
+
+function getSelectedAdminLeagueUid() {
+  let adminLeague = localStorage.getItem(selectedAdminLeagueKey);
+  if (adminLeague !== null) {
+    var adminLeagueUid = JSON.parse(adminLeague).leagueUid;
+    return adminLeagueUid;
+  }
+  return adminLeague ?? undefined;
+}
+
 export {
   getAuthToken,
   getRefreshToken,
@@ -98,4 +128,8 @@ export {
   clearAll,
   getDisplayName,
   saveDisplayName,
+  saveSelectedAdminLeague,
+  getSelectedAdminLeague,
+  getSelectedAdminLeagueName,
+  getSelectedAdminLeagueUid,
 };

@@ -9,7 +9,7 @@ import CreateScheduleDrawer2 from "features/fixtures/components/createScheduleDr
 import CreateScheduleDrawer from "features/fixtures/components/createScheduleDrawer";
 import { useParams } from "react-router-dom";
 
-export default function AdminGenerateFixtures(props) {
+export default function AdminGenerateLeagueSchedule(props) {
   const theme = useTheme();
   const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -49,6 +49,7 @@ export default function AdminGenerateFixtures(props) {
     console.log("close drawer and save", schedule, savedPayload);
     saveScheduleData(savedPayload, schedule).then(() => {
       setEdit(false);
+      props.saveAndClose();
     });
     //setLeaguesUpdated(setLeaguesUpdated + 1);
   };
@@ -67,7 +68,7 @@ export default function AdminGenerateFixtures(props) {
               setEdit(!edit);
             }}
           >
-            Generate Fixtures
+            Generate League Schedule
           </Button>
         </PermissionWrapperVisibility>
       </Box>

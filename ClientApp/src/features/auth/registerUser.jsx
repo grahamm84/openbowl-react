@@ -1,5 +1,5 @@
 import React from "react";
-import { Link as RouterLink, useHistory } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import { Formik } from "formik";
@@ -44,7 +44,7 @@ export default function RegisterUser() {
   const handleOpen = () => setTermsOpen(true);
   const handleClose = () => setTermsOpen(false);
 
-  let history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <AuthPagesWrapper label="Sign Up">
@@ -61,7 +61,7 @@ export default function RegisterUser() {
               if (data.errors) {
                 setApiErrors(data.errors);
               } else {
-                history.push("register-check-email");
+                navigate("register-check-email");
               }
             });
           }, 400);
@@ -149,7 +149,7 @@ export default function RegisterUser() {
 
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link component={RouterLink} to={"login"}>
+                <Link component={RouterLink} to={"/login"}>
                   Already have an account? Login Here.
                 </Link>
               </Grid>

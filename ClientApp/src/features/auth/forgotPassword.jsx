@@ -1,5 +1,5 @@
 import React from "react";
-import { Link as RouterLink, useHistory } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -16,7 +16,7 @@ const initialValues = {
 };
 
 export default function ForgotPassword() {
-  let history = useHistory();
+  const navigate = useNavigate();
   const auth = useAuth();
   const [loading, setLoading] = React.useState(false);
 
@@ -29,7 +29,7 @@ export default function ForgotPassword() {
           setLoading(true);
           auth.sendPasswordResetEmail(values).then(() => {
             setLoading(false);
-            history.push("forgot-password-email-sent");
+            navigate("/forgot-password-email-sent");
           });
         }}
       >
@@ -56,12 +56,12 @@ export default function ForgotPassword() {
 
             <Grid container>
               <Grid item xs>
-                <Link component={RouterLink} to={"login"}>
+                <Link component={RouterLink} to={"/login"}>
                   Login
                 </Link>
               </Grid>
               <Grid item>
-                <Link component={RouterLink} to={"register"}>
+                <Link component={RouterLink} to={"/register"}>
                   Register
                 </Link>
               </Grid>

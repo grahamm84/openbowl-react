@@ -75,12 +75,12 @@ export default function Login() {
 
             <Grid container>
               <Grid item xs>
-                <Link component={RouterLink} to={"forgot-password"}>
+                <Link component={RouterLink} to={"/forgot-password"}>
                   Forgot Password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link component={RouterLink} to={"register"}>
+                <Link component={RouterLink} to={"/register"}>
                   Don&apos;t have an account? Register here.
                 </Link>
               </Grid>

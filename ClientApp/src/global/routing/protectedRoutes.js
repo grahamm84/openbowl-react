@@ -14,7 +14,12 @@ import LeagueTableContainer from "features/leagues/leagueTableContainer";
 import LeagueFixturesContainer from "features/leagues/leagueFixturesContainer";
 import LeagueStatisticsContainer from "features/leagues/leagueStatisticsContainer";
 import LeagueResultsContainer from "features/leagues/leagueResultsContainer";
-import LeagueAdminContainer from "features/leagues/leagueAdminContainer";
+import LeagueAdminContainer from "features/leagueAdmin/containers/leagueAdminContainer";
+import LeagueAdminContainerList from "features/leagueAdmin/containers/leagueAdminContainerList";
+import LeagueAdminTeamsContainer from "features/leagueAdmin/containers/leagueAdminTeamsContainer";
+import LeagueAdminFixturesContainer from "features/leagueAdmin/containers/leagueAdminFixtures";
+import LeagueAdminSingleFixtureContainer from "features/leagueAdmin/containers/leagueAdminSingleFixtureContainer";
+import LeagueAdminResultsContainer from "features/leagueAdmin/containers/leagueAdminResultsContainer";
 export function ProtectedRoutes() {
   return (
     <Routes>
@@ -56,6 +61,37 @@ export function ProtectedRoutes() {
         exact
         path="/league/:leagueUid"
         element={<LeagueDetailsContainer />}
+      />
+
+      <Route
+        exact
+        path="/league-admin/:leagueUid"
+        element={<LeagueAdminContainer />}
+      />
+      <Route
+        exact
+        path="/league-admin/:leagueUid/teams"
+        element={<LeagueAdminTeamsContainer />}
+      />
+      <Route
+        exact
+        path="/league-admin/:leagueUid/fixtures/:fixtureId"
+        element={<LeagueAdminSingleFixtureContainer />}
+      />
+      <Route
+        exact
+        path="/league-admin/:leagueUid/fixtures"
+        element={<LeagueAdminFixturesContainer />}
+      />
+      <Route
+        exact
+        path="/league-admin/:leagueUid/results"
+        element={<LeagueAdminResultsContainer />}
+      />
+      <Route
+        exact
+        path="/league-admin"
+        element={<LeagueAdminContainerList />}
       />
 
       <Route path="*" element={<Navigate to="/home" replace />} />

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link as RouterLink, useHistory, useParams } from "react-router-dom";
+import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -21,7 +21,7 @@ let initialValues = {
   passwordCode: "",
 };
 export default function ForgotPasswordSetNew() {
-  let history = useHistory();
+  const navigate = useNavigate();
   const auth = useAuth();
   const [apiErrors, setApiErrors] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
@@ -52,7 +52,7 @@ export default function ForgotPasswordSetNew() {
               if (data.errors) {
                 setApiErrors(data.errors);
               } else {
-                history.push("password-set");
+                navigate("/password-set");
               }
             });
           }}

@@ -16,7 +16,7 @@ import { PropTypes } from "prop-types";
 import ApiErrorBanner from "global/components/apiErrorBanner";
 import PageHeader from "global/layouts/LoggedInLayout/Header/PageHeader";
 import PermissionWrapperVisibility from "global/components/PermissionWrapper";
-import { Link as RouterLink, useHistory } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { AdminRole } from "global/helpers/UserRoleConstants";
 
 function createPassword(length) {
@@ -44,7 +44,7 @@ function UserCreateForm() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState(null);
-  let history = useHistory();
+  const navigate = useNavigate();
 
   const initialValues = {
     name: "",
@@ -81,7 +81,7 @@ function UserCreateForm() {
                   "User Created",
                   "Could not Create User"
                 );
-                history.push("/users");
+                navigate("//users");
               } catch (err) {
                 setErrors(err.errors);
               }

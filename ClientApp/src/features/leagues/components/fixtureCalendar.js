@@ -136,7 +136,7 @@ export default function FixtureCalendar(props) {
 
   //   const selectedEvent = useSelector(selectedEventSelector);
   const [date, setDate] = useState(new Date());
-  const [view, setView] = useState(mobile ? "listWeek" : "dayGridMonth");
+  const [view, setView] = useState(mobile ? "listMonth" : "dayGridMonth");
 
   const handleDateToday = () => {
     const calItem = calendarRef.current;
@@ -232,7 +232,7 @@ export default function FixtureCalendar(props) {
 
     if (calItem) {
       const calApi = calItem.getApi();
-      const changedView = mobile ? "listWeek" : "dayGridMonth";
+      const changedView = mobile ? "listMonth" : "dayGridMonth";
 
       calApi.changeView(changedView);
       setView(changedView);

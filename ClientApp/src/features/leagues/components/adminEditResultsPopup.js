@@ -34,10 +34,12 @@ import {
   ListItemText,
   Badge,
   Chip,
+  Input,
 } from "@mui/material";
 import { EditTwoTone, SwitchAccountTwoTone } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import Label from "global/components/Label";
+import { COLUMNS_DIMENSION_PROPERTIES } from "@mui/x-data-grid/hooks/features/columns/gridColumnsUtils";
 
 export default function AdminEditResultsPopup(props) {
   const [open, setOpen] = React.useState(false);
@@ -47,6 +49,18 @@ export default function AdminEditResultsPopup(props) {
   const [fixtures, setFixtures] = useState([]);
   const [selectedTeam1, setSelectedTeam1] = useState(null);
   const [selectedTeam2, setSelectedTeam2] = useState(null);
+  const [team1Players, setTeam1Players] = useState([]);
+  const [team2Players, setTeam2Players] = useState([]);
+  const [team1Scores, setTeam1Scores] = useState([]);
+  const [team2Scores, setTeam2Scores] = useState([]);
+  const [team1Handicaps, setTeam1Handicaps] = useState([]);
+  const [team2Handicaps, setTeam2Handicaps] = useState([]);
+  const [updates, setUpdates] = useState(0);
+
+  useEffect(() => {
+  setFixtures(props.result.playerGames);
+  }, [updates]);
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -63,7 +77,94 @@ export default function AdminEditResultsPopup(props) {
     //window.location.assign("league-admin");
   };
 
-  console.log("fixtures", fixtures);
+  const updateData = (e, gameNumber, player, teamId) => {
+    console.log('what is fixtures', fixtures);
+    console.log(e.target.value, gameNumber, player.id, teamId);
+    let playerData = fixtures.find(x=> x.player.id === player.id);
+    console.log('playerData', playerData);
+    if(playerData?.games[gameNumber-1].scratchScore !== e.target.value){
+      console.log('value changed')
+    }
+    
+  }
+
+  const renderPlayerRow = (teamId) => {
+    
+    let playersInTeam = fixtures.filter(x=> x.player.teamId === teamId);
+    const ids = playersInTeam.map(p => {
+        return p.player.id
+    })
+    const playerList = playersInTeam.map(p=> {
+      return p.player
+    });
+    const playerIds = [...new Set(ids)]
+    const players = [...new Set(playerList)]
+
+    let components = [];
+    let currentComponents = [];
+    let teamTotalHandicap = 0;
+    let teamTotalScratch = 0;
+    let teamTotal = 0;
+
+    console.log('players in team:', playersInTeam, playerIds, players);
+
+
+    fixtures.filter(x=> x.player.teamId === teamId)
+    .map(p => {
+      currentComponents.push(<TableCell>{p.player.displayName}</TableCell>
+      );
+      let games = p.games.sort(x=> x.gameNumber)
+      const playerHandicap = games[0]?.handicap;
+      teamTotalHandicap = teamTotalHandicap + playerHandicap;
+      currentComponents.push(<TableCell>{playerHandicap}</TableCell>);
+
+      let scratchTotal = 0;
+      let totalScore = 0;
+
+      games.map(g=> {  
+        scratchTotal = scratchTotal + g.scratchScore;
+        totalScore = totalScore + g.score;
+        
+        teamTotalScratch = teamTotalScratch + g.scratchScore;
+        teamTotal = teamTotal + g.score;
+
+
+      /*currentComponents.push(
+        <TableCell>
+          <ListItem>
+            <ListItemText primary={g.scratchScore} secondary={g.score} />
+          </ListItem>
+        </TableCell>); */  
+        currentComponents.push(
+      <TableCell><TextField defaultValue={g.scratchScore} onMouseLeave={(e) => updateData(e, g.gameNumber, p.player, teamId)}/></TableCell>
+      );
+      }) 
+
+      currentComponents.push(
+      <TableCell>{scratchTotal}</TableCell>);
+      currentComponents.push(
+      <TableCell>{totalScore}</TableCell>);
+      components.push(<TableRow>{currentComponents}</TableRow>)
+      currentComponents = [];
+    })
+
+   
+    // please loop through the games property in the prop.results object and group by player, ordered by gamenumber, the output should be an array of objects of each player containing an array of games then loop through the array of objects and render the table row for each player
+    //console.log('players in team:', playersInTeam, playerIds, players)
+    return <>{components}</>
+  
+  }
+
+
+  //console.log("result", props.result);
+  let gameNumbers = props.result?.playerGames[0]?.games?.map(game => { return game.gameNumber });
+  let gameCount = Math.max.apply(null,gameNumbers);
+
+  const rowHeaders = [];
+  for (let i = 0; i < gameCount; i++) {
+    rowHeaders.push(<TableCell key={i} align="left">Game {i+1}</TableCell>)
+  }
+
   return (
     <>
       <Typography noWrap>
@@ -79,7 +180,7 @@ export default function AdminEditResultsPopup(props) {
         <DialogContent>
           <DialogContentText>Fixture Details here:</DialogContentText>
           <Box p={2}>
-            <Typography variant="h2">Team 1</Typography>
+            <Typography variant="h2">{props.result.fixtureDetails.homeTeamName}</Typography>
           </Box>
           <Stack direction="row" spacing={2}>
             <Stack direction="row" spacing={2}>
@@ -88,56 +189,14 @@ export default function AdminEditResultsPopup(props) {
                   <TableRow>
                     <TableCell align="left">Player</TableCell>
                     <TableCell align="left">Handicap</TableCell>
-                    <TableCell align="left">Game 1</TableCell>
-                    <TableCell align="left">Game 2</TableCell>
-                    <TableCell align="left">Game 3</TableCell>
+                    {rowHeaders} 
                     <TableCell align="left">Scratch</TableCell>
                     <TableCell align="left">Total Score</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow>
-                    <TableCell>Adam</TableCell>
-                    <TableCell>42</TableCell>
-                    <TableCell>
-                      <ListItem>
-                        <ListItemText primary="145" secondary="175" />
-                      </ListItem>
-                    </TableCell>
-                    <TableCell>
-                      <ListItem>
-                        <ListItemText primary="145" secondary="175" />
-                      </ListItem>
-                    </TableCell>
-                    <TableCell>
-                      <ListItem>
-                        <ListItemText primary="145" secondary="175" />
-                      </ListItem>
-                    </TableCell>
-                    <TableCell>400</TableCell>
-                    <TableCell>510</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Graham</TableCell>
-                    <TableCell>70</TableCell>
-                    <TableCell>
-                      <ListItem>
-                        <ListItemText primary="145" secondary="175" />
-                      </ListItem>
-                    </TableCell>
-                    <TableCell>
-                      <ListItem>
-                        <ListItemText primary="145" secondary="175" />
-                      </ListItem>
-                    </TableCell>
-                    <TableCell>
-                      <ListItem>
-                        <ListItemText primary="145" secondary="175" />
-                      </ListItem>
-                    </TableCell>
-                    <TableCell>400</TableCell>
-                    <TableCell>510</TableCell>
-                  </TableRow>
+                {renderPlayerRow(props.result.fixtureDetails.homeTeamId)}
+                {/* {renderPlayerRow(props.result.fixtureDetails.awayTeamId)} */}
                 </TableBody>
                 <TableFooter>
                   <TableRow>

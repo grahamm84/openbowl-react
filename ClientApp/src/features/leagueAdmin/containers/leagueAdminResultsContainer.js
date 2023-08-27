@@ -45,12 +45,13 @@ import TeamEditCard from "features/teams/components/teamEditCard";
 import AdminTeamContainer from "features/teams/containers/adminTeamContainer";
 import AdminScheduleContainer from "features/fixtures/containers/adminScheduleContainer";
 import AdminLeagueNavigation from "../components/AdminLeagueNavigation";
-import FixtureCreatePopup from "features/leagues/components/adminEditResultsPopup";
+import AdminEditResultsPopup from "features/leagues/components/adminEditResultsPopup";
 
 export default function LeagueAdminResultsContainer(props) {
   const [loading, setLoading] = useState(false);
   const [availableLeagues, setAvailableLeagues] = useState();
   const [selectedLeague, setSelectedLeague] = useState();
+  const [results, setResults] = useState([]);
   const [leagueUid, setLeagueUid] = useState("");
   const [leagueUpdated, setLeagueUpdated] = useState(0);
   const params = useParams();
@@ -62,6 +63,13 @@ export default function LeagueAdminResultsContainer(props) {
     setExpanded(isExpanded ? panel : false);
   };
 
+  const dateDisplayOptions = {
+    weekday: "short",
+    year: "2-digit",
+    month: "short",
+    day: "2-digit",
+  };
+
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
@@ -71,7 +79,7 @@ export default function LeagueAdminResultsContainer(props) {
         if (currentLeagueId) {
           const result = await api.apiGet(`results/${currentLeagueId}`);
           console.log(result);
-          setSelectedLeague(result.data);
+          setResults(result.data);
           setLoading(false);
         }
       } catch (err) {
@@ -94,9 +102,20 @@ export default function LeagueAdminResultsContainer(props) {
   const renderContent = () => {
     return (
       <>
-        <Stack spacing={2} divider={<Divider />}>
-          {selectedLeague && (
-            <>
+        
+      </>
+    );
+  };
+
+  return (
+    <ContentContainer
+      title={`League Results`}
+      subtitle="Update League Results"
+      icon={<HandshakeTwoTone fontSize="large" />}
+      // action={renderDropdown()}
+    >
+      <Grid item xs={12}>
+        {loading ? renderLoadingBar() : <Stack spacing={2} divider={<Divider />}>
               <AdminLeagueNavigation leagueId={params.leagueUid} />
               <Card mt={2}>
                 <CardHeader title="League Results"></CardHeader>
@@ -114,15 +133,26 @@ export default function LeagueAdminResultsContainer(props) {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      <TableRow hover>
+                      {results.map(result => {
+                        var date = new Date(result.eventTimeUtc);
+                        console.log('row?', result)
+                        return(
+                        <TableRow hover>
                         <TableCell>
                           <Box display="flex" alignItems="center">
                             <Box>
                               <Typography fontWeight="bold">
-                                Date Here
+                              {`${date.toLocaleString(
+                      undefined,
+                      dateDisplayOptions
+                    )}  @ ${date.toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: false,
+                    })}`}
                               </Typography>
                               <Typography noWrap variant="subtitle2">
-                                Week Number
+                              Gameweek {result.fixtureDetails.weekNumber}
                               </Typography>
                             </Box>
                           </Box>
@@ -131,7 +161,7 @@ export default function LeagueAdminResultsContainer(props) {
                           <Typography fontWeight="bold">League</Typography>
                         </TableCell>
                         <TableCell align="left">
-                          <Typography fontWeight="bold">Home Team</Typography>
+                          <Typography fontWeight="bold">{result.fixtureDetails.homeTeamName}</Typography>
                         </TableCell>
                         <TableCell align="left">
                           <Box display="flex" alignItems="center">
@@ -146,7 +176,7 @@ export default function LeagueAdminResultsContainer(props) {
                           </Box>
                         </TableCell>
                         <TableCell align="left">
-                          <Typography fontWeight="bold">Away Team</Typography>
+                          <Typography fontWeight="bold">{result.fixtureDetails.awayTeamName}</Typography>
                         </TableCell>
                         <TableCell align="left">
                           <Box display="flex" alignItems="center">
@@ -161,36 +191,16 @@ export default function LeagueAdminResultsContainer(props) {
                           </Box>
                         </TableCell>
                         <TableCell align="center">
-                          <FixtureCreatePopup />
-                          {/* <Typography noWrap>
-                            <Tooltip title={"Manage"} arrow>
-                              <IconButton color="primary">
-                                <EditTwoTone fontSize="small" />
-                              </IconButton>
-                            </Tooltip>
-                          </Typography> */}
+                          <AdminEditResultsPopup result={result}/>
                         </TableCell>
-                      </TableRow>
+                      </TableRow>)
+                      })}
+                      
                     </TableBody>
                   </Table>
                 </TableContainer>
               </Card>
-            </>
-          )}
-        </Stack>
-      </>
-    );
-  };
-
-  return (
-    <ContentContainer
-      title={`League Results`}
-      subtitle="Update League Results"
-      icon={<HandshakeTwoTone fontSize="large" />}
-      // action={renderDropdown()}
-    >
-      <Grid item xs={12}>
-        {loading ? renderLoadingBar() : renderContent()}
+        </Stack>}
       </Grid>
     </ContentContainer>
   );

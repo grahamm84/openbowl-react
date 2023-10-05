@@ -1,47 +1,17 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import * as api from "global/apiClient";
-import * as storage from "global/helpers/storageService";
 import {
-  FormControl,
-  Grid,
-  Skeleton,
-  Tooltip,
-  Autocomplete,
   Box,
-  MenuItem,
-  Select,
   Table,
   TableRow,
-  DataGrid,
   Typography,
-  IconButton,
   Stack,
-  Divider,
   TableHead,
-  Tab,
   TableCell,
   TableBody,
   TableFooter,
   ListItem,
   ListItemText,
-  Badge,
-  Chip,
 } from "@mui/material";
-import {
-  EditTwoTone,
-  RowingSharp,
-  SwitchAccountTwoTone,
-} from "@mui/icons-material";
-import { LoadingButton } from "@mui/lab";
-import Label from "global/components/Label";
 
 export default function TeamScoreSheetTable(props) {
   const numberOfFixtures = props.fixtures?.length ?? 0;
